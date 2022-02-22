@@ -16,6 +16,27 @@ clusterC = generateBivariateCluster(N_c, mu_c, cov_c);
 clusterD = generateBivariateCluster(N_d, mu_d, cov_d);
 clusterE = generateBivariateCluster(N_e, mu_e, cov_e);
 
+% Generating the grid of points for Case 1
+minABx = min([clusterA(:,1);clusterB(:,1)]);
+maxABx = max([clusterA(:,1);clusterB(:,1)]);
+minABy = min([clusterA(:,2);clusterB(:,2)]);
+maxABy = max([clusterA(:,2);clusterB(:,2)]);
+
+x = linspace(minABx, maxABx, 500);
+y = linspace(minABy, maxABy, 500);
+[X1, Y1] = meshgrid(x,y);
+
+% Generating the grid of points for Case 2
+minCDEx = min([clusterC(:,1);clusterD(:,1);clusterE(:,1)]);
+maxCDEx = max([clusterC(:,1);clusterD(:,1);clusterE(:,1)]);
+minCDEy = min([clusterC(:,2);clusterD(:,2);clusterE(:,2)]);
+maxCDEy = max([clusterC(:,2);clusterD(:,2);clusterE(:,2)]);
+
+x2 = linspace(minCDEx, maxCDEx, 500);
+y2 = linspace(minCDEy, maxCDEy, 500);
+[X2, Y2] = meshgrid(x2,y2);
+%% 
+
 % Plotting the samples and unit standard deviation countour for classes A and B
 figure(1)
 scatterSize = 15;
@@ -25,6 +46,9 @@ plotClusters(mu_a, cov_a, 'r');
 
 samplesB = scatter(clusterB(:,1), clusterB(:,2), scatterSize, 'b', 'filled');
 plotClusters(mu_b, cov_b, 'b');
+title('Plot of Samples and Clusters of Classes A and B')
+legend([samplesA, samplesB], {'Class A', 'Class B'})
+xlabel('x'); ylabel('y');
 hold off
 
 % Plotting the samples and unit standard deviation countour for classes C,
@@ -39,4 +63,50 @@ plotClusters(mu_d, cov_d, 'b');
 
 samplesE = scatter(clusterE(:,1), clusterE(:,2), scatterSize, 'm', 'filled');
 plotClusters(mu_e, cov_e, 'm');
+
+title('Plot of Samples and Clusters of Classes C, D. and E')
+legend([samplesC, samplesD, samplesE], {'Class C', 'Class D', 'Class E'})
+xlabel('x'); ylabel('y');
 hold off
+
+%% 
+% 
+
+% Plotting MED, MICD, MAP decision boundaries for Case 1
+med_ab = med(mu_a, mu_b, X1, Y1);
+figure(3)
+hold on;
+samplesA = scatter(clusterA(:,1), clusterA(:,2), scatterSize, 'r', 'filled');
+samplesB = scatter(clusterB(:,1), clusterB(:,2), scatterSize, 'b', 'filled');
+plotClusters(mu_a, cov_a, 'r');
+plotClusters(mu_b, cov_b, 'b');
+
+contour(X1, Y1, med_ab, 'Color', 'g');
+
+% TODO ADD CLASSIFIERS FOR MICD AND MAP BOUNDARIES
+
+title('MED, MICD, and MAP Classifications of A and B')
+legend('Class A', 'Class B', 'Unit SD Contour A', 'Unit SD Contour B', 'MED')
+xlabel('x'); ylabel('y');
+hold off;
+
+
+med_cde = med3(mu_c, mu_d, mu_e, X2, Y2);
+figure(4)
+hold on;
+samplesC = scatter(clusterC(:,1), clusterC(:,2), scatterSize, 'r', 'filled');
+samplesD = scatter(clusterD(:,1), clusterD(:,2), scatterSize, 'b', 'filled');
+samplesE = scatter(clusterE(:,1), clusterE(:,2), scatterSize, 'm', 'filled');
+
+plotClusters(mu_c, cov_c, 'r');
+plotClusters(mu_d, cov_d, 'b');
+plotClusters(mu_e, cov_e, 'm');
+
+contour(X2, Y2, med_cde, 'Color', 'g');
+
+% TODO ADD CLASSIFIERS FOR MICD AND MAP BOUNDARIES
+
+title('MED, MICD, and MAP Classifications of C, D, and E')
+legend('Class C', 'Class D', 'Class E', 'Unit SD Contour C', 'Unit SD Contour D', 'Unit SD Contour E','MED')
+xlabel('x'); ylabel('y');
+hold off;
