@@ -3,7 +3,7 @@ close all;
 clear;
 
 % Defining the five classes of data
-N_a=200; mu_a = [5 10]; cov_a = [8 0; 0 4];
+N_a = 200; mu_a = [5 10]; cov_a = [8 0; 0 4];
 N_b = 200; mu_b = [10 15]; cov_b = [8 0; 0 4];
 N_c = 100; mu_c = [5 10]; cov_c = [8 4; 4 40];
 N_d = 200; mu_d = [15 10]; cov_d = [8 0; 0 8];
@@ -73,7 +73,7 @@ hold off
 % 
 
 % Plotting MED, MICD, MAP decision boundaries for Case 1
-med_ab = med(mu_a, mu_b, X1, Y1);
+med_ab = med(mu_a', mu_b', X1, Y1);
 figure(3)
 hold on;
 samplesA = scatter(clusterA(:,1), clusterA(:,2), scatterSize, 'r', 'filled');
@@ -91,7 +91,8 @@ xlabel('x'); ylabel('y');
 hold off;
 
 
-med_cde = med3(mu_c, mu_d, mu_e, X2, Y2);
+% Plotting MED, MICD, MAP decision boundaries for Case 2
+med_cde = med3(mu_c', mu_d', mu_e', X2, Y2);
 figure(4)
 hold on;
 samplesC = scatter(clusterC(:,1), clusterC(:,2), scatterSize, 'r', 'filled');
@@ -110,3 +111,38 @@ title('MED, MICD, and MAP Classifications of C, D, and E')
 legend('Class C', 'Class D', 'Class E', 'Unit SD Contour C', 'Unit SD Contour D', 'Unit SD Contour E','MED')
 xlabel('x'); ylabel('y');
 hold off;
+
+
+%% 
+% ERROR ANALYSIS FOR MED
+[trueA, falseAasB] = classifyClusterForCase1(clusterA, mu_a', mu_b');
+[trueB, falseBasA] = classifyClusterForCase1(clusterB, mu_b', mu_a');
+
+[medCM_A, medCM_B] = createConfusionMatrixCase1(trueA, falseAasB, trueB, falseBasA);
+
+disp("Confusion Matrix for A");
+disp(medCM_A);
+
+disp("Confusion Matrix for B");
+disp(medCM_B);
+
+probErrorMEDCase1 = (falseAasB + falseBasA) / (N_a + N_b);
+disp("Probability of error for MED Case 1 = " + probErrorMEDCase1); 
+
+[trueC, falseCasD, falseCasE] = classifyClusterForCase2(clusterC, mu_c', mu_d', mu_e');
+[trueD, falseDasC, falseDasE] = classifyClusterForCase2(clusterD, mu_d', mu_c', mu_e');
+[trueE, falseEasC, falseEasD] = classifyClusterForCase2(clusterE, mu_e', mu_c', mu_d');
+[medCM_C, medCM_D, medCM_E] = createConfusionMatrixCase2(trueC, falseCasD, falseCasE,...
+                                                        trueD, falseDasC, falseDasE,...
+                                                        trueE, falseEasC, falseEasD);                                              
+disp("Confusion Matrix for C");
+disp(medCM_C);
+
+disp("Confusion Matrix for D");
+disp(medCM_D);
+
+disp("Confusion Matrix for E");
+disp(medCM_E);
+
+probErrorMEDCase2 = (falseCasD + falseCasE + falseDasC + falseDasE + falseEasC + falseEasD) / (N_c + N_d + N_e);
+disp("Probability of error for MED Case 2 = " + probErrorMEDCase2); 
