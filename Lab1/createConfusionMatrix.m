@@ -6,8 +6,8 @@ function C = createConfusionMatrix(clusters, classifier)
         cluster = clusters{i};
         n = size(cluster,1);
 
-        actual = [actual, ones(n, 1) * i];
-        predicted = [predicted, classifier(cluster)];
+        actual = [actual, ones(1, n) * i];
+        predicted = [predicted, classifier(cluster).'];
     end
     
     predicted(predicted == 0) = NaN;
