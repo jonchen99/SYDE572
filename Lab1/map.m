@@ -1,4 +1,4 @@
-function z=map(mu1,mu2,sigma1,sigma2,n1, n2,X,Y)
+function class=map(mu1,mu2,sigma1,sigma2,n1, n2,X,Y)
 class = zeros(size(X,1)*size(Y,2),1); % 1d arary of all points' classes
 grid = [X(:) Y(:)]; %
 
@@ -15,7 +15,7 @@ for i = 1:length(grid)
 
     logLike = log(pxA/pxB);
     logTheta = log(pB/pA);
-    
+
     if(logLike(1) > logTheta(1))
         class(i) = 1;
     elseif(logLike < logTheta)
@@ -24,5 +24,4 @@ for i = 1:length(grid)
         class(i) = 0;
     end
 end
-z = reshape(class,size(X,1),size(X,2));
 end

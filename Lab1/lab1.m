@@ -192,6 +192,20 @@ disp("Confusion Matrix for C, D, E");
 disp(C_CDE);
 disp("Probability of error for MICD Case 2 = " + getErrorRate(C_CDE));
 
+%% 
+% ERROR ANALYSIS FOR MAP
+C_AB = createConfusionMatrix({clusterA, clusterB}, @(points) map(mu_a, mu_b, cov_a, cov_b, N_a, N_b, X1, Y1));
+
+disp("Confusion Matrix for A, B");
+disp(C_AB);
+disp("Probability of error for MAP Case 1 = " + getErrorRate(C_AB));
+
+C_CDE = createConfusionMatrix({clusterC, clusterD, clusterE}, @(points) map3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, N_c, N_d, N_e, X1, Y1));
+                                          
+disp("Confusion Matrix for C, D, E");
+disp(C_CDE);
+disp("Probability of error for MAP Case 2 = " + getErrorRate(C_CDE));
+
 
 %% 
 % ERROR ANALYSIS FOR NN
