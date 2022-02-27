@@ -88,7 +88,7 @@ plotClusters(mu_a, cov_a, 'r');
 plotClusters(mu_b, cov_b, 'b');
 
 contour(X1, Y1, med_ab, 'Color', 'g');
-contour(X1, Y1, micd_ab, 'Color', 'r');
+contour(X1, Y1, micd_ab, 'Color', 'c');
 % TODO: ADD MAP BOUNDARIES
 
 title('MED, MICD, and MAP Classifications of A and B')
@@ -113,7 +113,7 @@ plotClusters(mu_d, cov_d, 'b');
 plotClusters(mu_e, cov_e, 'm');
 
 contour(X2, Y2, med_cde, 'Color', 'g');
-contour(X2, Y2, micd_cde, 'Color', 'r');
+contour(X2, Y2, micd_cde, 'Color', 'c');
 
 % ADD MAP BOUNDARIES
 title('MED, MICD, and MAP Classifications of C, D, and E')
