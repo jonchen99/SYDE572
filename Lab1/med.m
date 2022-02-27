@@ -1,17 +1,15 @@
-function z=med(mu1,mu2,X,Y)
+function class = med(mu, points)
+    class = zeros(size(points,1),1);
 
-    class = zeros(size(X,1)*size(Y,2),1);
-    grid = [X(:) Y(:)];
-    for i = 1:length(grid)
-        d1 = sqrt((mu1(1) - grid(i,1))^2 + (mu1(2) - grid(i,2))^2);
-        d2 = sqrt((mu2(1) - grid(i,1))^2 + (mu2(2) - grid(i,2))^2);
-        if (d1 < d2)
-            class(i) = 1;
-        elseif (d2 < d1)
-            class(i) = 2;
-        else
+    for i = 1:length(points)
+        d = ed(mu, points(i,:));
+        [dMin, classIndex] = min(d);
+
+        if sum(d == dMin) > 1
+            % Same distance for multiple classes. Undetermined.
             class(i) = 0;
+        else
+            class(i) = classIndex;
         end
     end
-    z = reshape(class,size(X,1),size(X,2));
 end

@@ -77,9 +77,7 @@ hold off
 %%
 
 % Plotting MED, MICD, MAP decision boundaries for Case 1
-med_ab = med(mu_a', mu_b', X1, Y1);
-micd_ab = micd(mu_a', mu_b', cov_a, cov_b, X1, Y1);
-% TODO: ADD MAP BOUNDARIES
+med_ab = classifyGrid(X1, Y1, @(points) med([mu_a; mu_b], points));
 figure(3)
 hold on;
 samplesA = scatter(clusterA(:,1), clusterA(:,2), scatterSize, 'r', 'filled');
@@ -88,20 +86,17 @@ plotClusters(mu_a, cov_a, 'r');
 plotClusters(mu_b, cov_b, 'b');
 
 contour(X1, Y1, med_ab, 'Color', 'g');
-contour(X1, Y1, micd_ab, 'Color', 'c');
-% TODO: ADD MAP BOUNDARIES
+
+% TODO ADD CLASSIFIERS FOR MICD AND MAP BOUNDARIES
 
 title('MED, MICD, and MAP Classifications of A and B')
-legend('Class A', 'Class B', 'Unit SD Contour A', 'Unit SD Contour B', 'MED', 'MICD')
+legend('Class A', 'Class B', 'Unit SD Contour A', 'Unit SD Contour B', 'MED')
 xlabel('x'); ylabel('y');
 hold off;
 
 
 % Plotting MED, MICD, MAP decision boundaries for Case 2
-med_cde = med3(mu_c', mu_d', mu_e', X2, Y2);
-micd_cde = micd3(mu_c', mu_d', mu_e', cov_c, cov_d, cov_e, X2, Y2);
-% ADD MAP BOUNDARIES
-
+med_cde = classifyGrid(X2, Y2, @(points) med([mu_c; mu_d; mu_e], points));
 figure(4)
 hold on;
 samplesC = scatter(clusterC(:,1), clusterC(:,2), scatterSize, 'r', 'filled');
@@ -113,19 +108,19 @@ plotClusters(mu_d, cov_d, 'b');
 plotClusters(mu_e, cov_e, 'm');
 
 contour(X2, Y2, med_cde, 'Color', 'g');
-contour(X2, Y2, micd_cde, 'Color', 'c');
 
-% ADD MAP BOUNDARIES
+% TODO ADD CLASSIFIERS FOR MICD AND MAP BOUNDARIES
+
 title('MED, MICD, and MAP Classifications of C, D, and E')
-legend('Class C', 'Class D', 'Class E', 'Unit SD Contour C', 'Unit SD Contour D', 'Unit SD Contour E','MED', 'MICD')
+legend('Class C', 'Class D', 'Class E', 'Unit SD Contour C', 'Unit SD Contour D', 'Unit SD Contour E','MED')
 xlabel('x'); ylabel('y');
 hold off;
 
 %%
 
 % Plotting NN, 5NN decision boundaries for Case 1
-nn_ab = knn(1, {clusterA, clusterB}, X1, Y1);
-knn_ab = knn(5, {clusterA, clusterB}, X1, Y1);
+nn_ab = classifyGrid(X1, Y1, @(points) knn(1, {clusterA, clusterB}, points));
+knn_ab = classifyGrid(X1, Y1, @(points) knn(5, {clusterA, clusterB}, points));
 figure(5)
 hold on;
 samplesA = scatter(clusterA(:,1), clusterA(:,2), scatterSize, 'r', 'filled');
@@ -143,8 +138,8 @@ hold off;
 
 
 % Plotting NN, 5NN decision boundaries for Case 2
-nn_cde = knn(1, {clusterC, clusterD, clusterE}, X1, Y1);
-knn_cde = knn(5, {clusterC, clusterD, clusterE}, X1, Y1);
+nn_cde = classifyGrid(X2, Y2, @(points) knn(1, {clusterC, clusterD, clusterE}, points));
+knn_cde = classifyGrid(X2, Y2, @(points) knn(5, {clusterC, clusterD, clusterE}, points));
 figure(6)
 hold on;
 samplesC = scatter(clusterC(:,1), clusterC(:,2), scatterSize, 'r', 'filled');
@@ -166,34 +161,62 @@ hold off;
 
 %% 
 % ERROR ANALYSIS FOR MED
-[trueA, falseAasB] = classifyClusterForCase1(clusterA, mu_a', mu_b');
-[trueB, falseBasA] = classifyClusterForCase1(clusterB, mu_b', mu_a');
+C_AB = createConfusionMatrix({clusterA, clusterB}, @(points) med([mu_a; mu_b], points));
 
-[medCM_A, medCM_B] = createConfusionMatrixCase1(trueA, falseAasB, trueB, falseBasA);
+disp("Confusion Matrix for A, B");
+disp(C_AB);
+disp("Probability of error for MED Case 1 = " + getErrorRate(C_AB));
 
-disp("Confusion Matrix for A");
-disp(medCM_A);
+C_CDE = createConfusionMatrix({clusterC, clusterD, clusterE}, @(points) med([mu_c; mu_d; mu_e], points));
+                                          
+disp("Confusion Matrix for C, D, E");
+disp(C_CDE);
+disp("Probability of error for MED Case 2 = " + getErrorRate(C_CDE));
 
-disp("Confusion Matrix for B");
-disp(medCM_B);
 
-probErrorMEDCase1 = (falseAasB + falseBasA) / (N_a + N_b);
-disp("Probability of error for MED Case 1 = " + probErrorMEDCase1); 
+%% 
+% ERROR ANALYSIS FOR NN
+testClusterA = generateBivariateCluster(N_a, mu_a, cov_a);
+testClusterB = generateBivariateCluster(N_b, mu_b, cov_b);
 
-[trueC, falseCasD, falseCasE] = classifyClusterForCase2(clusterC, mu_c', mu_d', mu_e');
-[trueD, falseDasC, falseDasE] = classifyClusterForCase2(clusterD, mu_d', mu_c', mu_e');
-[trueE, falseEasC, falseEasD] = classifyClusterForCase2(clusterE, mu_e', mu_c', mu_d');
-[medCM_C, medCM_D, medCM_E] = createConfusionMatrixCase2(trueC, falseCasD, falseCasE,...
-                                                        trueD, falseDasC, falseDasE,...
-                                                        trueE, falseEasC, falseEasD);                                              
-disp("Confusion Matrix for C");
-disp(medCM_C);
+C_AB = createConfusionMatrix({testClusterA, testClusterB}, ...
+    @(points) knn(1, {clusterA, clusterB}, points));
 
-disp("Confusion Matrix for D");
-disp(medCM_D);
+disp("Confusion Matrix for A, B");
+disp(C_AB);
+disp("Probability of error for NN Case 1 = " + getErrorRate(C_AB));
 
-disp("Confusion Matrix for E");
-disp(medCM_E);
+testClusterC = generateBivariateCluster(N_c, mu_c, cov_c);
+testClusterD = generateBivariateCluster(N_d, mu_d, cov_d);
+testClusterE = generateBivariateCluster(N_e, mu_e, cov_e);
 
-probErrorMEDCase2 = (falseCasD + falseCasE + falseDasC + falseDasE + falseEasC + falseEasD) / (N_c + N_d + N_e);
-disp("Probability of error for MED Case 2 = " + probErrorMEDCase2); 
+C_CDE = createConfusionMatrix({testClusterC, testClusterD, testClusterE}, ...
+    @(points) knn(1, {clusterC, clusterD, clusterE}, points));
+                                          
+disp("Confusion Matrix for C, D, E");
+disp(C_CDE);
+disp("Probability of error for NN Case 2 = " + getErrorRate(C_CDE));
+
+
+%% 
+% ERROR ANALYSIS FOR 5NN
+testClusterA = generateBivariateCluster(N_a, mu_a, cov_a);
+testClusterB = generateBivariateCluster(N_b, mu_b, cov_b);
+
+C_AB = createConfusionMatrix({testClusterA, testClusterB}, ...
+    @(points) knn(5, {clusterA, clusterB}, points));
+
+disp("Confusion Matrix for A, B");
+disp(C_AB);
+disp("Probability of error for 5NN Case 1 = " + getErrorRate(C_AB));
+
+testClusterC = generateBivariateCluster(N_c, mu_c, cov_c);
+testClusterD = generateBivariateCluster(N_d, mu_d, cov_d);
+testClusterE = generateBivariateCluster(N_e, mu_e, cov_e);
+
+C_CDE = createConfusionMatrix({testClusterC, testClusterD, testClusterE}, ...
+    @(points) knn(5, {clusterC, clusterD, clusterE}, points));
+                                          
+disp("Confusion Matrix for C, D, E");
+disp(C_CDE);
+disp("Probability of error for 5NN Case 2 = " + getErrorRate(C_CDE));
