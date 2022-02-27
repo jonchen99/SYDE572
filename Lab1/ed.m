@@ -1,5 +1,5 @@
 function d = ed(x1, x2)
-% ED  Compute Euclidean distance.
+% Compute Euclidean distance.
 %   x1, x2 are nx2 matrices where each column corresponds to one dimension.
     d = sqrt(...
         (x1(:,1) - x2(:,1)).^2 ...
