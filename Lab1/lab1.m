@@ -172,3 +172,51 @@ C_CDE = createConfusionMatrix({clusterC, clusterD, clusterE}, @(points) med([mu_
 disp("Confusion Matrix for C, D, E");
 disp(C_CDE);
 disp("Probability of error for MED Case 2 = " + getErrorRate(C_CDE));
+
+
+%% 
+% ERROR ANALYSIS FOR NN
+testClusterA = generateBivariateCluster(N_a, mu_a, cov_a);
+testClusterB = generateBivariateCluster(N_b, mu_b, cov_b);
+
+C_AB = createConfusionMatrix({testClusterA, testClusterB}, ...
+    @(points) knn(1, {clusterA, clusterB}, points));
+
+disp("Confusion Matrix for A, B");
+disp(C_AB);
+disp("Probability of error for NN Case 1 = " + getErrorRate(C_AB));
+
+testClusterC = generateBivariateCluster(N_c, mu_c, cov_c);
+testClusterD = generateBivariateCluster(N_d, mu_d, cov_d);
+testClusterE = generateBivariateCluster(N_e, mu_e, cov_e);
+
+C_CDE = createConfusionMatrix({testClusterC, testClusterD, testClusterE}, ...
+    @(points) knn(1, {clusterC, clusterD, clusterE}, points));
+                                          
+disp("Confusion Matrix for C, D, E");
+disp(C_CDE);
+disp("Probability of error for NN Case 2 = " + getErrorRate(C_CDE));
+
+
+%% 
+% ERROR ANALYSIS FOR 5NN
+testClusterA = generateBivariateCluster(N_a, mu_a, cov_a);
+testClusterB = generateBivariateCluster(N_b, mu_b, cov_b);
+
+C_AB = createConfusionMatrix({testClusterA, testClusterB}, ...
+    @(points) knn(5, {clusterA, clusterB}, points));
+
+disp("Confusion Matrix for A, B");
+disp(C_AB);
+disp("Probability of error for 5NN Case 1 = " + getErrorRate(C_AB));
+
+testClusterC = generateBivariateCluster(N_c, mu_c, cov_c);
+testClusterD = generateBivariateCluster(N_d, mu_d, cov_d);
+testClusterE = generateBivariateCluster(N_e, mu_e, cov_e);
+
+C_CDE = createConfusionMatrix({testClusterC, testClusterD, testClusterE}, ...
+    @(points) knn(5, {clusterC, clusterD, clusterE}, points));
+                                          
+disp("Confusion Matrix for C, D, E");
+disp(C_CDE);
+disp("Probability of error for 5NN Case 2 = " + getErrorRate(C_CDE));
