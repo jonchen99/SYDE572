@@ -79,6 +79,7 @@ hold off
 % Plotting MED, MICD, MAP decision boundaries for Case 1
 med_ab = classifyGrid(X1, Y1, @(points) med([mu_a; mu_b], points));
 micd_ab = classifyGrid(X1, Y1, @(points) micd(mu_a, mu_b, cov_a, cov_b, X1, Y1));
+map_ab = classifyGrid(X1, Y1, @(points) map(mu_a, mu_b, cov_a, cov_b, N_a, N_b, X1, Y1));
 figure(3)
 hold on;
 samplesA = scatter(clusterA(:,1), clusterA(:,2), scatterSize, 'r', 'filled');
@@ -88,6 +89,7 @@ plotClusters(mu_b, cov_b, 'b');
 
 contour(X1, Y1, med_ab, 'Color', 'g');
 contour(X1, Y1, micd_ab, 'Color', 'c');
+contour(X1, Y1, map_ab, 'Color', 'b');
 % TODO ADD CLASSIFIERS FOR MAP BOUNDARIES
 
 title('MED, MICD, and MAP Classifications of A and B')
@@ -99,6 +101,7 @@ hold off;
 % Plotting MED, MICD, MAP decision boundaries for Case 2
 med_cde = classifyGrid(X2, Y2, @(points) med([mu_c; mu_d; mu_e], points));
 micd_cde = classifyGrid(X2, Y2, @(points) micd3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, X2, Y2));
+map_cde = classifyGrid(X2, Y2, @(points) map3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, N_c, N_d, N_e,X2, Y2));
 figure(4)
 hold on;
 samplesC = scatter(clusterC(:,1), clusterC(:,2), scatterSize, 'r', 'filled');
@@ -111,7 +114,7 @@ plotClusters(mu_e, cov_e, 'm');
 
 contour(X2, Y2, med_cde, 'Color', 'g');
 contour(X2, Y2, micd_cde, 'Color', 'c');
-% TODO ADD CLASSIFIERS FOR MAP BOUNDARIES
+contour(X2, Y2, map_cde, 'Color', 'b');
 
 title('MED, MICD, and MAP Classifications of C, D, and E')
 legend('Class C', 'Class D', 'Class E', 'Unit SD Contour C', 'Unit SD Contour D', 'Unit SD Contour E','MED', 'MICD')
