@@ -78,6 +78,7 @@ hold off
 
 % Plotting MED, MICD, MAP decision boundaries for Case 1
 med_ab = classifyGrid(X1, Y1, @(points) med([mu_a; mu_b], points));
+micd_ab = classifyGrid(X1, Y1, @(points) micd(mu_a, mu_b, cov_a, cov_b, X1, Y1));
 figure(3)
 hold on;
 samplesA = scatter(clusterA(:,1), clusterA(:,2), scatterSize, 'r', 'filled');
@@ -86,17 +87,18 @@ plotClusters(mu_a, cov_a, 'r');
 plotClusters(mu_b, cov_b, 'b');
 
 contour(X1, Y1, med_ab, 'Color', 'g');
-
-% TODO ADD CLASSIFIERS FOR MICD AND MAP BOUNDARIES
+contour(X1, Y1, micd_ab, 'Color', 'c');
+% TODO ADD CLASSIFIERS FOR MAP BOUNDARIES
 
 title('MED, MICD, and MAP Classifications of A and B')
-legend('Class A', 'Class B', 'Unit SD Contour A', 'Unit SD Contour B', 'MED')
+legend('Class A', 'Class B', 'Unit SD Contour A', 'Unit SD Contour B', 'MED', 'MICD')
 xlabel('x'); ylabel('y');
 hold off;
 
 
 % Plotting MED, MICD, MAP decision boundaries for Case 2
 med_cde = classifyGrid(X2, Y2, @(points) med([mu_c; mu_d; mu_e], points));
+micd_cde = classifyGrid(X2, Y2, @(points) micd3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, X2, Y2));
 figure(4)
 hold on;
 samplesC = scatter(clusterC(:,1), clusterC(:,2), scatterSize, 'r', 'filled');
@@ -108,11 +110,11 @@ plotClusters(mu_d, cov_d, 'b');
 plotClusters(mu_e, cov_e, 'm');
 
 contour(X2, Y2, med_cde, 'Color', 'g');
-
-% TODO ADD CLASSIFIERS FOR MICD AND MAP BOUNDARIES
+contour(X2, Y2, micd_cde, 'Color', 'c');
+% TODO ADD CLASSIFIERS FOR MAP BOUNDARIES
 
 title('MED, MICD, and MAP Classifications of C, D, and E')
-legend('Class C', 'Class D', 'Class E', 'Unit SD Contour C', 'Unit SD Contour D', 'Unit SD Contour E','MED')
+legend('Class C', 'Class D', 'Class E', 'Unit SD Contour C', 'Unit SD Contour D', 'Unit SD Contour E','MED', 'MICD')
 xlabel('x'); ylabel('y');
 hold off;
 
@@ -172,6 +174,20 @@ C_CDE = createConfusionMatrix({clusterC, clusterD, clusterE}, @(points) med([mu_
 disp("Confusion Matrix for C, D, E");
 disp(C_CDE);
 disp("Probability of error for MED Case 2 = " + getErrorRate(C_CDE));
+
+%% 
+% ERROR ANALYSIS FOR MICD
+C_AB = createConfusionMatrix({clusterA, clusterB}, @(points) micd(mu_a, mu_b, cov_a, cov_b, X1, Y1));
+
+disp("Confusion Matrix for A, B");
+disp(C_AB);
+disp("Probability of error for MICD Case 1 = " + getErrorRate(C_AB));
+
+C_CDE = createConfusionMatrix({clusterC, clusterD, clusterE}, @(points) micd3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, X2, Y2));
+                                          
+disp("Confusion Matrix for C, D, E");
+disp(C_CDE);
+disp("Probability of error for MICD Case 2 = " + getErrorRate(C_CDE));
 
 
 %% 

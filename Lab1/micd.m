@@ -1,4 +1,4 @@
-function z = micd(mu1, mu2, cov1, cov2, X, Y)
+function class = micd(mu1, mu2, cov1, cov2, X, Y)
     
     class = zeros(size(X,1)*size(Y,2),1);
     grid = [X(:) Y(:)];
@@ -14,6 +14,5 @@ function z = micd(mu1, mu2, cov1, cov2, X, Y)
             class(i) = 0;
         end
     end
-    z = reshape(class,size(X,1),size(X,2));
 end
 
