@@ -78,6 +78,8 @@ hold off
 
 % Plotting MED, MICD, MAP decision boundaries for Case 1
 med_ab = med(mu_a', mu_b', X1, Y1);
+micd_ab = micd(mu_a', mu_b', cov_a, cov_b, X1, Y1);
+% TODO: ADD MAP BOUNDARIES
 figure(3)
 hold on;
 samplesA = scatter(clusterA(:,1), clusterA(:,2), scatterSize, 'r', 'filled');
@@ -86,17 +88,20 @@ plotClusters(mu_a, cov_a, 'r');
 plotClusters(mu_b, cov_b, 'b');
 
 contour(X1, Y1, med_ab, 'Color', 'g');
-
-% TODO ADD CLASSIFIERS FOR MICD AND MAP BOUNDARIES
+contour(X1, Y1, micd_ab, 'Color', 'r');
+% TODO: ADD MAP BOUNDARIES
 
 title('MED, MICD, and MAP Classifications of A and B')
-legend('Class A', 'Class B', 'Unit SD Contour A', 'Unit SD Contour B', 'MED')
+legend('Class A', 'Class B', 'Unit SD Contour A', 'Unit SD Contour B', 'MED', 'MICD')
 xlabel('x'); ylabel('y');
 hold off;
 
 
 % Plotting MED, MICD, MAP decision boundaries for Case 2
 med_cde = med3(mu_c', mu_d', mu_e', X2, Y2);
+micd_cde = micd3(mu_c', mu_d', mu_e', cov_c, cov_d, cov_e, X2, Y2);
+% ADD MAP BOUNDARIES
+
 figure(4)
 hold on;
 samplesC = scatter(clusterC(:,1), clusterC(:,2), scatterSize, 'r', 'filled');
@@ -108,11 +113,11 @@ plotClusters(mu_d, cov_d, 'b');
 plotClusters(mu_e, cov_e, 'm');
 
 contour(X2, Y2, med_cde, 'Color', 'g');
+contour(X2, Y2, micd_cde, 'Color', 'r');
 
-% TODO ADD CLASSIFIERS FOR MICD AND MAP BOUNDARIES
-
+% ADD MAP BOUNDARIES
 title('MED, MICD, and MAP Classifications of C, D, and E')
-legend('Class C', 'Class D', 'Class E', 'Unit SD Contour C', 'Unit SD Contour D', 'Unit SD Contour E','MED')
+legend('Class C', 'Class D', 'Class E', 'Unit SD Contour C', 'Unit SD Contour D', 'Unit SD Contour E','MED', 'MICD')
 xlabel('x'); ylabel('y');
 hold off;
 
