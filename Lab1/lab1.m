@@ -78,8 +78,8 @@ hold off
 
 % Plotting MED, MICD, MAP decision boundaries for Case 1
 med_ab = classifyGrid(X1, Y1, @(points) med([mu_a; mu_b], points));
-micd_ab = classifyGrid(X1, Y1, @(points) micd(mu_a, mu_b, cov_a, cov_b, X1, Y1));
-map_ab = classifyGrid(X1, Y1, @(points) map(mu_a, mu_b, cov_a, cov_b, N_a, N_b, X1, Y1));
+micd_ab = classifyGrid(X1, Y1, @(points) micd(mu_a, mu_b, cov_a, cov_b, points));
+map_ab = classifyGrid(X1, Y1, @(points) map(mu_a, mu_b, cov_a, cov_b, N_a, N_b, points));
 figure(3)
 hold on;
 samplesA = scatter(clusterA(:,1), clusterA(:,2), scatterSize, 'r', 'filled');
@@ -99,8 +99,8 @@ hold off;
 
 % Plotting MED, MICD, MAP decision boundaries for Case 2
 med_cde = classifyGrid(X2, Y2, @(points) med([mu_c; mu_d; mu_e], points));
-micd_cde = classifyGrid(X2, Y2, @(points) micd3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, X2, Y2));
-map_cde = classifyGrid(X2, Y2, @(points) map3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, N_c, N_d, N_e,X2, Y2));
+micd_cde = classifyGrid(X2, Y2, @(points) micd3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, points));
+map_cde = classifyGrid(X2, Y2, @(points) map3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, N_c, N_d, N_e, points));
 figure(4)
 hold on;
 samplesC = scatter(clusterC(:,1), clusterC(:,2), scatterSize, 'r', 'filled');
@@ -179,13 +179,13 @@ disp("Probability of error for MED Case 2 = " + getErrorRate(C_CDE));
 
 %% 
 % ERROR ANALYSIS FOR MICD
-C_AB = createConfusionMatrix({clusterA, clusterB}, @(points) micd(mu_a, mu_b, cov_a, cov_b, X1, Y1));
+C_AB = createConfusionMatrix({clusterA, clusterB}, @(points) micd(mu_a, mu_b, cov_a, cov_b, points));
 
 disp("Confusion Matrix for A, B");
 disp(C_AB);
 disp("Probability of error for MICD Case 1 = " + getErrorRate(C_AB));
 
-C_CDE = createConfusionMatrix({clusterC, clusterD, clusterE}, @(points) micd3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, X2, Y2));
+C_CDE = createConfusionMatrix({clusterC, clusterD, clusterE}, @(points) micd3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, points));
                                           
 disp("Confusion Matrix for C, D, E");
 disp(C_CDE);
@@ -193,13 +193,13 @@ disp("Probability of error for MICD Case 2 = " + getErrorRate(C_CDE));
 
 %% 
 % ERROR ANALYSIS FOR MAP
-C_AB = createConfusionMatrix({clusterA, clusterB}, @(points) map(mu_a, mu_b, cov_a, cov_b, N_a, N_b, X1, Y1));
+C_AB = createConfusionMatrix({clusterA, clusterB}, @(points) map(mu_a, mu_b, cov_a, cov_b, N_a, N_b, points));
 
 disp("Confusion Matrix for A, B");
 disp(C_AB);
 disp("Probability of error for MAP Case 1 = " + getErrorRate(C_AB));
 
-C_CDE = createConfusionMatrix({clusterC, clusterD, clusterE}, @(points) map3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, N_c, N_d, N_e, X1, Y1));
+C_CDE = createConfusionMatrix({clusterC, clusterD, clusterE}, @(points) map3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, N_c, N_d, N_e, points));
                                           
 disp("Confusion Matrix for C, D, E");
 disp(C_CDE);
