@@ -90,10 +90,9 @@ plotClusters(mu_b, cov_b, 'b');
 contour(X1, Y1, med_ab, 'Color', 'g');
 contour(X1, Y1, micd_ab, 'Color', 'c');
 contour(X1, Y1, map_ab, 'Color', 'b');
-% TODO ADD CLASSIFIERS FOR MAP BOUNDARIES
 
 title('MED, MICD, and MAP Classifications of A and B')
-legend('Class A', 'Class B', 'Unit SD Contour A', 'Unit SD Contour B', 'MED', 'MICD')
+legend('Class A', 'Class B', 'Unit SD Contour A', 'Unit SD Contour B', 'MED', 'MICD', 'MAP')
 xlabel('x'); ylabel('y');
 hold off;
 
@@ -117,7 +116,7 @@ contour(X2, Y2, micd_cde, 'Color', 'c');
 contour(X2, Y2, map_cde, 'Color', 'b');
 
 title('MED, MICD, and MAP Classifications of C, D, and E')
-legend('Class C', 'Class D', 'Class E', 'Unit SD Contour C', 'Unit SD Contour D', 'Unit SD Contour E','MED', 'MICD')
+legend('Class C', 'Class D', 'Class E', 'Unit SD Contour C', 'Unit SD Contour D', 'Unit SD Contour E','MED', 'MICD', 'MAP')
 xlabel('x'); ylabel('y');
 hold off;
 
