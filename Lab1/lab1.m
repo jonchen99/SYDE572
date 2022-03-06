@@ -122,7 +122,7 @@ hold off;
 
 %%
 
-% Plotting NN, 5NN decision boundaries for Case 1
+% Plotting NN decision boundaries for Case 1
 nn_ab = classifyGrid(X1, Y1, @(points) knn(1, {clusterA, clusterB}, points));
 knn_ab = classifyGrid(X1, Y1, @(points) knn(5, {clusterA, clusterB}, points));
 figure(5)
@@ -133,18 +133,32 @@ plotClusters(mu_a, cov_a, 'r');
 plotClusters(mu_b, cov_b, 'b');
 
 contour(X1, Y1, nn_ab, 'Color', 'g');
+
+title('NN Classifications of A and B')
+legend('Class A', 'Class B', 'Unit SD Contour A', 'Unit SD Contour B', 'NN')
+xlabel('x'); ylabel('y');
+hold off;
+
+% Plotting 5NN decision boundaries for Case 1
+figure(6)
+hold on;
+samplesA = scatter(clusterA(:,1), clusterA(:,2), scatterSize, 'r', 'filled');
+samplesB = scatter(clusterB(:,1), clusterB(:,2), scatterSize, 'b', 'filled');
+plotClusters(mu_a, cov_a, 'r');
+plotClusters(mu_b, cov_b, 'b');
+
 contour(X1, Y1, knn_ab, 'Color', 'k');
 
-title('NN, 5NN Classifications of A and B')
-legend('Class A', 'Class B', 'Unit SD Contour A', 'Unit SD Contour B', 'NN', '5NN')
+title('5NN Classifications of A and B')
+legend('Class A', 'Class B', 'Unit SD Contour A', 'Unit SD Contour B', '5NN')
 xlabel('x'); ylabel('y');
 hold off;
 
 
-% Plotting NN, 5NN decision boundaries for Case 2
+% Plotting NN decision boundaries for Case 2
 nn_cde = classifyGrid(X2, Y2, @(points) knn(1, {clusterC, clusterD, clusterE}, points));
 knn_cde = classifyGrid(X2, Y2, @(points) knn(5, {clusterC, clusterD, clusterE}, points));
-figure(6)
+figure(7)
 hold on;
 samplesC = scatter(clusterC(:,1), clusterC(:,2), scatterSize, 'r', 'filled');
 samplesD = scatter(clusterD(:,1), clusterD(:,2), scatterSize, 'b', 'filled');
@@ -155,13 +169,29 @@ plotClusters(mu_d, cov_d, 'b');
 plotClusters(mu_e, cov_e, 'm');
 
 contour(X2, Y2, nn_cde, 'Color', 'g');
-contour(X2, Y2, knn_cde, 'Color', 'k');
 
-title('NN, 5NN Classifications of C, D, and E')
-legend('Class C', 'Class D', 'Class E', 'Unit SD Contour C', 'Unit SD Contour D', 'Unit SD Contour E', 'NN', '5NN')
+title('NN Classifications of C, D, and E')
+legend('Class C', 'Class D', 'Class E', 'Unit SD Contour C', 'Unit SD Contour D', 'Unit SD Contour E', 'NN')
 xlabel('x'); ylabel('y');
 hold off;
 
+% Plotting 5NN decision boundaries for Case 2
+figure(8)
+hold on;
+samplesC = scatter(clusterC(:,1), clusterC(:,2), scatterSize, 'r', 'filled');
+samplesD = scatter(clusterD(:,1), clusterD(:,2), scatterSize, 'b', 'filled');
+samplesE = scatter(clusterE(:,1), clusterE(:,2), scatterSize, 'm', 'filled');
+
+plotClusters(mu_c, cov_c, 'r');
+plotClusters(mu_d, cov_d, 'b');
+plotClusters(mu_e, cov_e, 'm');
+
+contour(X2, Y2, knn_cde, 'Color', 'k');
+
+title('5NN Classifications of C, D, and E')
+legend('Class C', 'Class D', 'Class E', 'Unit SD Contour C', 'Unit SD Contour D', 'Unit SD Contour E', '5NN')
+xlabel('x'); ylabel('y');
+hold off;
 
 %% 
 % ERROR ANALYSIS FOR MED
