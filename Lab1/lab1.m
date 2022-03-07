@@ -197,13 +197,13 @@ hold off;
 % ERROR ANALYSIS FOR MED
 C_AB = createConfusionMatrix({clusterA, clusterB}, @(points) med([mu_a; mu_b], points));
 
-disp("Confusion Matrix for A, B");
+disp("Confusion Matrix for MED A, B");
 disp(C_AB);
 disp("Probability of error for MED Case 1 = " + getErrorRate(C_AB));
 
 C_CDE = createConfusionMatrix({clusterC, clusterD, clusterE}, @(points) med([mu_c; mu_d; mu_e], points));
                                           
-disp("Confusion Matrix for C, D, E");
+disp("Confusion Matrix for MED C, D, E");
 disp(C_CDE);
 disp("Probability of error for MED Case 2 = " + getErrorRate(C_CDE));
 
@@ -211,13 +211,13 @@ disp("Probability of error for MED Case 2 = " + getErrorRate(C_CDE));
 % ERROR ANALYSIS FOR MICD
 C_AB = createConfusionMatrix({clusterA, clusterB}, @(points) micd(mu_a, mu_b, cov_a, cov_b, points));
 
-disp("Confusion Matrix for A, B");
+disp("Confusion Matrix for MICD A, B");
 disp(C_AB);
 disp("Probability of error for MICD Case 1 = " + getErrorRate(C_AB));
 
 C_CDE = createConfusionMatrix({clusterC, clusterD, clusterE}, @(points) micd3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, points));
                                           
-disp("Confusion Matrix for C, D, E");
+disp("Confusion Matrix for MICD C, D, E");
 disp(C_CDE);
 disp("Probability of error for MICD Case 2 = " + getErrorRate(C_CDE));
 
@@ -225,13 +225,13 @@ disp("Probability of error for MICD Case 2 = " + getErrorRate(C_CDE));
 % ERROR ANALYSIS FOR MAP
 C_AB = createConfusionMatrix({clusterA, clusterB}, @(points) map(mu_a, mu_b, cov_a, cov_b, N_a, N_b, points));
 
-disp("Confusion Matrix for A, B");
+disp("Confusion Matrix for MAP A, B");
 disp(C_AB);
 disp("Probability of error for MAP Case 1 = " + getErrorRate(C_AB));
 
 C_CDE = createConfusionMatrix({clusterC, clusterD, clusterE}, @(points) map3(mu_c, mu_d, mu_e, cov_c, cov_d, cov_e, N_c, N_d, N_e, points));
                                           
-disp("Confusion Matrix for C, D, E");
+disp("Confusion Matrix for MAP C, D, E");
 disp(C_CDE);
 disp("Probability of error for MAP Case 2 = " + getErrorRate(C_CDE));
 
@@ -244,7 +244,7 @@ testClusterB = generateBivariateCluster(N_b, mu_b, cov_b);
 C_AB = createConfusionMatrix({testClusterA, testClusterB}, ...
     @(points) knn(1, {clusterA, clusterB}, points));
 
-disp("Confusion Matrix for A, B");
+disp("Confusion Matrix for NN A, B");
 disp(C_AB);
 disp("Probability of error for NN Case 1 = " + getErrorRate(C_AB));
 
@@ -255,7 +255,7 @@ testClusterE = generateBivariateCluster(N_e, mu_e, cov_e);
 C_CDE = createConfusionMatrix({testClusterC, testClusterD, testClusterE}, ...
     @(points) knn(1, {clusterC, clusterD, clusterE}, points));
                                           
-disp("Confusion Matrix for C, D, E");
+disp("Confusion Matrix for NN C, D, E");
 disp(C_CDE);
 disp("Probability of error for NN Case 2 = " + getErrorRate(C_CDE));
 
@@ -268,7 +268,7 @@ testClusterB = generateBivariateCluster(N_b, mu_b, cov_b);
 C_AB = createConfusionMatrix({testClusterA, testClusterB}, ...
     @(points) knn(5, {clusterA, clusterB}, points));
 
-disp("Confusion Matrix for A, B");
+disp("Confusion Matrix for 5NN A, B");
 disp(C_AB);
 disp("Probability of error for 5NN Case 1 = " + getErrorRate(C_AB));
 
@@ -279,6 +279,6 @@ testClusterE = generateBivariateCluster(N_e, mu_e, cov_e);
 C_CDE = createConfusionMatrix({testClusterC, testClusterD, testClusterE}, ...
     @(points) knn(5, {clusterC, clusterD, clusterE}, points));
                                           
-disp("Confusion Matrix for C, D, E");
+disp("Confusion Matrix for 5NN C, D, E");
 disp(C_CDE);
 disp("Probability of error for 5NN Case 2 = " + getErrorRate(C_CDE));
