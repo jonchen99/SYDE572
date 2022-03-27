@@ -1,7 +1,7 @@
 function [mu, variance] = estimateGaussianParams(data)
     N = length(data);
     
-    % ML estimate for mean
+    % ML estimate for mean is just the sample mean
     mu = mean(data);
     
     % ML estimate for variance
