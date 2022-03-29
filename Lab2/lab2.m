@@ -9,13 +9,15 @@ trueMeanA = 5;
 trueSDA = 1;
 trueLambdaB = 1;
 
-minA = min(a);
-maxA = max(a);
-minB = min(b);
-maxB = max(b);
-
-xA = linspace(minA, maxA, 100);
-xB = linspace(minB, maxB, 100);
+% minA = min(a);
+% maxA = max(a);
+% minB = min(b);
+% maxB = max(b);
+% 
+% xA = linspace(minA, maxA, 100);
+% xB = linspace(minB, maxB, 100);
+xA = 0:0.01:10;
+xB = 0:0.01:10;
 
 % PARAMETRIC ESTIMATION - GAUSSIAN
 % Data set A
@@ -111,10 +113,43 @@ xlabel("x");
 ylabel("p(x)");
 
 % NON-PARAMETRIC ESTIMATION
-% Data set A
+sd1 = 0.1;
+sd2 = 0.4;
 
+% Data set A
+parzenEstimate1A = parzen1D(a, xA, sd1);
+parzenEstimate2A = parzen1D(a, xA, sd2);
+gaussianTrueA = calculateGaussianPDF(xA, trueMeanA, trueSDA);
 
 % Data set B
+parzenEstimate1B = parzen1D(b, xB, sd1);
+parzenEstimate2B = parzen1D(b, xB, sd2);
+exponentialTrueB = calculateExponentialPDF(xB, trueLambdaB);
+
+figure
+title("Parzen Non-Parametric Estimation for \sigma= " + sd1);
+hold on
+plot(xA, parzenEstimate1A);
+plot(xA, gaussianTrueA);
+plot(xB, parzenEstimate1B);
+plot(xB, exponentialTrueB);
+hold off
+legend("Parzen Estimate for a", "True p(x) for a", "Parzen Estimate for b", "True p(x) for b");
+xlabel("x");
+ylabel("p(x)");
+
+figure
+title("Parzen Non-Parametric Estimation for \sigma= " + sd2);
+hold on
+plot(xA, parzenEstimate2A);
+plot(xA, gaussianTrueA);
+plot(xB, parzenEstimate2B);
+plot(xB, exponentialTrueB);
+hold off
+legend("Parzen Estimate for a", "True p(x) for a", "Parzen Estimate for b", "True p(x) for b");
+xlabel("x");
+ylabel("p(x)");
+
 %% MODEL ESTIMATION 2-D CASE
 data2 = load('lab2_2.mat');
 
