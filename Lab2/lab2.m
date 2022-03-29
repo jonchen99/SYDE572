@@ -5,9 +5,9 @@ close all;
 
 load('lab2_1.mat');
 
-meanA = 5;
-sdA = 1;
-lambdaB = 1;
+trueMeanA = 5;
+trueSDA = 1;
+trueLambdaB = 1;
 
 minA = min(a);
 maxA = max(a);
@@ -21,7 +21,7 @@ xB = linspace(minB, maxB, 100);
 % Data set A
 [muA, varA] = estimateGaussianParams(a);
 gaussianEstimateA = calculateGaussianPDF(xA, muA, sqrt(varA));
-gaussianTrueA = calculateGaussianPDF(xA, meanA, sdA);
+gaussianTrueA = calculateGaussianPDF(xA, trueMeanA, trueSDA);
 
 figure
 title("Gaussian Parametric Estimation of Data Set A");
@@ -36,7 +36,7 @@ ylabel("p(x)");
 % Data set B
 [muB, varB] = estimateGaussianParams(b);
 gaussianEstimateB = calculateGaussianPDF(xB, muB, sqrt(varB));
-exponentialTrueB = calculateExponentialPDF(xB, lambdaB);
+exponentialTrueB = calculateExponentialPDF(xB, trueLambdaB);
 
 figure
 title("Gaussian Parametric Estimation of Data Set B");
@@ -52,7 +52,7 @@ ylabel("p(x)");
 % Data set A
 estLambdaA = estimateExponentialParams(a);
 exponentialEstimateA = calculateExponentialPDF(xA, estLambdaA);
-gaussianTrueA = calculateGaussianPDF(xA, meanA, sdA);
+gaussianTrueA = calculateGaussianPDF(xA, trueMeanA, trueSDA);
 
 figure
 title("Exponential Parametric Estimation of Data Set A");
@@ -67,7 +67,7 @@ ylabel("p(x)");
 % Data set B
 estLambdaB = estimateExponentialParams(b);
 exponentialEstimateB = calculateExponentialPDF(xB, estLambdaB);
-exponentialTrueB = calculateExponentialPDF(xB, lambdaB);
+exponentialTrueB = calculateExponentialPDF(xB, trueLambdaB);
 
 figure
 title("Exponential Parametric Estimation of Data Set B");
@@ -81,9 +81,34 @@ ylabel("p(x)");
 
 % PARAMETRIC ESTIMATION - UNIFORM
 % Data set A
+[estA_A, estB_A] = estimateUniformParams(a);
+uniformEstimateA = calculateUniformPDF(xA, estA_A, estB_A);
+gaussianTrueA = calculateGaussianPDF(xA, trueMeanA, trueSDA);
 
+figure
+title("Uniform Parametric Estimation of Data Set A");
+hold on
+plot(xA, uniformEstimateA);
+plot(xA, gaussianTrueA);
+hold off
+legend("Estimated $$\hat{p}$$(x)", "True p(x)", 'Interpreter', 'latex');
+xlabel("x");
+ylabel("p(x)");
 
 % Data set B
+[estA_B, estB_B] = estimateUniformParams(b);
+uniformEstimateB = calculateUniformPDF(xB, estA_B, estB_B);
+exponentialTrueB = calculateExponentialPDF(xB, trueLambdaB);
+
+figure
+title("Uniform Parametric Estimation of Data Set B");
+hold on
+plot(xB, uniformEstimateB);
+plot(xB, exponentialTrueB);
+hold off
+legend("Estimated $$\hat{p}$$(x)", "True p(x)", 'Interpreter', 'latex');
+xlabel("x");
+ylabel("p(x)");
 
 % NON-PARAMETRIC ESTIMATION
 % Data set A
