@@ -25,28 +25,21 @@ xB = 0:0.01:10;
 gaussianEstimateA = calculateGaussianPDF(xA, muA, sqrt(varA));
 gaussianTrueA = calculateGaussianPDF(xA, trueMeanA, trueSDA);
 
-figure
-title("Gaussian Parametric Estimation of Data Set A");
-hold on
-plot(xA, gaussianEstimateA);
-plot(xA, gaussianTrueA);
-hold off
-legend("Estimated $$\hat{p}$$(x)", "True p(x)", 'Interpreter', 'latex');
-xlabel("x");
-ylabel("p(x)");
-
 % Data set B
 [muB, varB] = estimateGaussianParams(b);
 gaussianEstimateB = calculateGaussianPDF(xB, muB, sqrt(varB));
 exponentialTrueB = calculateExponentialPDF(xB, trueLambdaB);
 
 figure
-title("Gaussian Parametric Estimation of Data Set B");
+title("Gaussian Parametric Estimation");
 hold on
+plot(xA, gaussianEstimateA);
+plot(xA, gaussianTrueA);
 plot(xB, gaussianEstimateB);
 plot(xB, exponentialTrueB);
 hold off
-legend("Estimated $$\hat{p}$$(x)", "True p(x)", 'Interpreter', 'latex');
+legend("Estimated $$\hat{p}$$(x) a", "True p(x) a", ...
+    "Estimated $$\hat{p}$$(x) b", "True p(x) b", 'Interpreter', 'latex');
 xlabel("x");
 ylabel("p(x)");
 
@@ -56,28 +49,21 @@ estLambdaA = estimateExponentialParams(a);
 exponentialEstimateA = calculateExponentialPDF(xA, estLambdaA);
 gaussianTrueA = calculateGaussianPDF(xA, trueMeanA, trueSDA);
 
-figure
-title("Exponential Parametric Estimation of Data Set A");
-hold on
-plot(xA, exponentialEstimateA);
-plot(xA, gaussianTrueA);
-hold off
-legend("Estimated $$\hat{p}$$(x)", "True p(x)", 'Interpreter', 'latex');
-xlabel("x");
-ylabel("p(x)");
-
 % Data set B
 estLambdaB = estimateExponentialParams(b);
 exponentialEstimateB = calculateExponentialPDF(xB, estLambdaB);
 exponentialTrueB = calculateExponentialPDF(xB, trueLambdaB);
 
 figure
-title("Exponential Parametric Estimation of Data Set B");
+title("Exponential Parametric Estimation");
 hold on
-plot(xA, exponentialEstimateB);
-plot(xA, exponentialTrueB);
+plot(xA, exponentialEstimateA);
+plot(xA, gaussianTrueA);
+plot(xB, exponentialEstimateB);
+plot(xB, exponentialTrueB);
 hold off
-legend("Estimated $$\hat{p}$$(x)", "True p(x)", 'Interpreter', 'latex');
+legend("Estimated $$\hat{p}$$(x) a", "True p(x) a", ...
+    "Estimated $$\hat{p}$$(x) b", "True p(x) b", 'Interpreter', 'latex');
 xlabel("x");
 ylabel("p(x)");
 
@@ -87,28 +73,21 @@ ylabel("p(x)");
 uniformEstimateA = calculateUniformPDF(xA, estA_A, estB_A);
 gaussianTrueA = calculateGaussianPDF(xA, trueMeanA, trueSDA);
 
-figure
-title("Uniform Parametric Estimation of Data Set A");
-hold on
-plot(xA, uniformEstimateA);
-plot(xA, gaussianTrueA);
-hold off
-legend("Estimated $$\hat{p}$$(x)", "True p(x)", 'Interpreter', 'latex');
-xlabel("x");
-ylabel("p(x)");
-
 % Data set B
 [estA_B, estB_B] = estimateUniformParams(b);
 uniformEstimateB = calculateUniformPDF(xB, estA_B, estB_B);
 exponentialTrueB = calculateExponentialPDF(xB, trueLambdaB);
 
 figure
-title("Uniform Parametric Estimation of Data Set B");
+title("Uniform Parametric Estimation");
 hold on
+plot(xA, uniformEstimateA);
+plot(xA, gaussianTrueA);
 plot(xB, uniformEstimateB);
 plot(xB, exponentialTrueB);
 hold off
-legend("Estimated $$\hat{p}$$(x)", "True p(x)", 'Interpreter', 'latex');
+legend("Estimated $$\hat{p}$$(x) a", "True p(x) a", ...
+    "Estimated $$\hat{p}$$(x) b", "True p(x) b", 'Interpreter', 'latex');
 xlabel("x");
 ylabel("p(x)");
 
