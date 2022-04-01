@@ -1,16 +1,36 @@
-function class = ml(mu1, mu2, mu3, cov1, cov2, cov3, points)
+function class = ml(mu1, mu2, mu3, sigma1, sigma2, sigma3, points)
     class = zeros(size(points,1),1);
+    n1 = 100;
+    n2 = 100; 
+    n3 = 100;
+    pA = n1 / (n1 + n2 + n3);
+    pB = n2 / (n1 + n2 + n3);
+    pC = n3 / (n1 + n2 + n3);
+
 
     for i = 1:length(points)
-        d1 = sqrt((points(i,:) - mu1) * inv(cov1) * (points(i,:) - mu1)');
-        d2 = sqrt((points(i,:) - mu2) * inv(cov2) * (points(i,:) - mu2)');
-        d3 = sqrt((points(i,:) - mu3) * inv(cov3) * (points(i,:) - mu3)');
-        if (d1 < d2 && d1 < d3)
-            class(i) = 1;
-        elseif (d2 < d1 && d2 < d3)
-            class(i) = 2;
-        elseif (d3 < d1 && d3 < d2)
-            class(i) = 3;
+        x = [points(i,1), points(i,2)];
+
+        pxA =  1/(sqrt(2*pi)*det(sigma1))*exp(-0.5*(x-mu1)*inv(sigma1)*(x-mu1)');
+        pxB =  1/(sqrt(2*pi)*det(sigma2))*exp(-0.5*(x-mu2)*inv(sigma2)*(x-mu2)');
+        pxC =  1/(sqrt(2*pi)*det(sigma3))*exp(-0.5*(x-mu3)*inv(sigma3)*(x-mu3)');
+
+        logLike1 = log(pxA/pxB);
+        logTheta1 = log(pB/pA);
+
+        logLike2 = log(pxB/pxC);
+        logTheta2 = log(pC/pB);
+
+        logLike3 = log(pxC/pxA);
+        logTheta3 = log(pA/pC);
+
+
+        if (logLike1 > logTheta1 && logLike3 < logTheta3)
+            class(i) = 1; % A
+        elseif (logLike1 < logTheta1  && logLike2 > logTheta2)
+            class(i) = 2; % B
+        elseif (logLike2 < logTheta2  && logLike3 > logTheta3)
+            class(i) = 3; % C
         else
             class(i) = 0;
         end
