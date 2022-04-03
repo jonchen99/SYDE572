@@ -19,6 +19,7 @@ trueLambdaB = 1;
 xA = 0:0.01:10;
 xB = 0:0.01:10;
 
+% Model Estimation 1-D case
 % PARAMETRIC ESTIMATION - GAUSSIAN
 % Data set A
 [muA, varA] = estimateGaussianParams(a);
@@ -135,3 +136,16 @@ data2 = load('lab2_2.mat');
 
 %% SEQUENTIAL DISCRIMINANTS
 data3 = load('lab2_3.mat');
+% MED classification meshgrid
+x1 = linspace(min([a(:,1);b(:,1)]), max([a(:,1);b(:,1)]), 100);
+y1 = linspace(min([a(:,2);b(:,2)]), max([a(:,2);b(:,2)]), 100);
+
+% 3 sequential classifiers for Q1
+sequentialEstimation(x1,y1,a,b,1,1);
+sequentialEstimation(x1,y1,a,b,1,2);
+sequentialEstimation(x1,y1,a,b,1,3);
+
+% Learning a sequential classifier 20 times for Q3 for varying values of J
+for J=1:5
+    sequentialEstimation(x1,y1,a,b,J,0);
+end
