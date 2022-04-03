@@ -1,6 +1,6 @@
-function plotError(error,title)
+function plotError(error,graph_title)
     figure;
-    title(title);
+    title(graph_title);
     hold on;
     plot(error);
     xlabel('# of Iteration');

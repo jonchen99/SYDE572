@@ -146,6 +146,4 @@ sequentialEstimation(x1,y1,a,b,1,2);
 sequentialEstimation(x1,y1,a,b,1,3);
 
 % Learning a sequential classifier 20 times for Q3 for varying values of J
-for J=1:5
-    sequentialEstimation(x1,y1,a,b,J,0);
-end
+% sequentialEstimation(x1,y1,a,b,5,0);
