@@ -131,9 +131,77 @@ xlabel("x");
 ylabel("p(x)");
 
 %% MODEL ESTIMATION 2-D CASE
-data2 = load('lab2_2.mat');
+
+load('lab2_2.mat');
+
+% PARAMETRIC ESTIMATION
+% calculate mean and covariance 
+muA = mean(al);
+muB = mean(bl);
+muC = mean(cl);
+covA = cov(al);
+covB = cov(bl);
+covC = cov(cl);
+
+resolution = 0.5;
+cmap = colormap( ...
+    [242/256 255/256 240/256; ...
+    241/256 251/256 254/256; ...
+    250/256 228/256 231/256] ...
+    );
 
 
+% create grid
+minX = min([al(:,1);bl(:,1);cl(:,1)]);
+maxX = max([al(:,1);bl(:,1);cl(:,1)]);
+minY = min([al(:,2);bl(:,2);cl(:,2)]);
+maxY = max([al(:,2);bl(:,2);cl(:,2)]);
+x = minX:resolution:maxX+resolution;
+y = minY:resolution:maxY+resolution;
+[X, Y] = meshgrid(x,y);
+
+% find boundary
+ml_abc = classifyGrid(X, Y, @(points) ml(muA, muB, muC, covA, covB, covC, points));
+
+
+
+% NON-PARAMETRIC ESTIMATION
+h = 20;
+
+ksize = round(12*h/resolution);
+x = resolution.*(-ksize:(ksize+1));
+kernel = exp(-resolution.*x.*x/(h*h));
+
+res = [resolution, minX, minY, maxX, maxY];
+
+[pAL, xAL, yAL] = parzen(al,res,kernel);
+[pBL, xBL, yBL] = parzen(bl,res,kernel);
+[pCL, xCL, yCL] = parzen(cl,res,kernel);
+
+ml2_abc = ml2(pAL,pBL,pCL);
+
+% plot 
+figure
+hold on 
+colormap(cmap)
+contourf(X, Y, ml_abc, 'Color', 'black');
+scatter(al(:,1), al(:,2), '.', 'green');
+scatter(bl(:,1), bl(:,2), '.', 'blue');
+scatter(cl(:,1), cl(:,2), '.', 'red');
+title('Parametric Estimation')
+legend('boundary','al', 'bl', 'cl')
+hold off
+
+figure
+hold on
+contourf(X, Y, ml2_abc, 'Color', 'black');
+colormap(cmap)
+scatter(al(:,1), al(:,2), '.', 'green');
+scatter(bl(:,1), bl(:,2), '.', 'blue');
+scatter(cl(:,1), cl(:,2), '.', 'red');
+legend('boundary','al', 'bl', 'cl')
+title('Non-parametric Estimation')
+hold off
 %% SEQUENTIAL DISCRIMINANTS
 data3 = load('lab2_3.mat');
 % MED classification meshgrid
