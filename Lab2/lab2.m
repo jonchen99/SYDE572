@@ -203,7 +203,7 @@ legend('boundary','al', 'bl', 'cl')
 title('Non-parametric Estimation')
 hold off
 %% SEQUENTIAL DISCRIMINANTS
-data3 = load('lab2_3.mat');
+load('lab2_3.mat');
 % MED classification meshgrid
 x1 = linspace(min([a(:,1);b(:,1)]), max([a(:,1);b(:,1)]), 100);
 y1 = linspace(min([a(:,2);b(:,2)]), max([a(:,2);b(:,2)]), 100);
