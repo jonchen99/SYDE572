@@ -1,4 +1,4 @@
-function [class] = classifyClasses(X,Y,discriminants,true_n_ab,true_n_ba)
+function [class] = sequentialInference(X,Y,discriminants,true_n_ab,true_n_ba)
     class = 0;
     for j = 1:numel(discriminants)
         a_mu = discriminants{j}(1,:);

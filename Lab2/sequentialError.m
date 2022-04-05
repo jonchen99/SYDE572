@@ -1,4 +1,4 @@
-function [avgError,minError,maxError,sdError] = calculateError(A,B,J,K)
+function [avgError,minError,maxError,sdError] = sequentialError(A,B,J,K)
     for j=1:J
         totalError = [];
         for k=1:K
