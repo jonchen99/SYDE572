@@ -9,13 +9,6 @@ trueMeanA = 5;
 trueSDA = 1;
 trueLambdaB = 1;
 
-% minA = min(a);
-% maxA = max(a);
-% minB = min(b);
-% maxB = max(b);
-% 
-% xA = linspace(minA, maxA, 100);
-% xB = linspace(minB, maxB, 100);
 xA = 0:0.01:10;
 xB = 0:0.01:10;
 
@@ -132,6 +125,10 @@ ylabel("p(x)");
 
 %% MODEL ESTIMATION 2-D CASE
 
+clc
+clear;
+close all;
+
 load('lab2_2.mat');
 
 % PARAMETRIC ESTIMATION
@@ -164,13 +161,12 @@ y = minY:resolution:maxY+resolution;
 ml_abc = classifyGrid(X, Y, @(points) ml(muA, muB, muC, covA, covB, covC, points));
 
 
-
 % NON-PARAMETRIC ESTIMATION
 h = 20;
 
 ksize = round(12*h/resolution);
-x = resolution.*(-ksize:(ksize+1));
-kernel = exp(-resolution.*x.*x/(h*h));
+x = resolution.*(-ksize:ksize);
+kernel = exp(-resolution.*x.*x/(h*h)) / (sqrt(2*pi)*h);
 
 res = [resolution, minX, minY, maxX, maxY];
 
@@ -190,8 +186,8 @@ scatter(bl(:,1), bl(:,2), '.', 'blue');
 scatter(cl(:,1), cl(:,2), '.', 'red');
 title('Parametric Estimation')
 legend('boundary','al', 'bl', 'cl')
-xlabel('x1')
-ylabel('x2')
+xlabel('x')
+ylabel('y')
 hold off
 
 figure
@@ -203,8 +199,8 @@ scatter(bl(:,1), bl(:,2), '.', 'blue');
 scatter(cl(:,1), cl(:,2), '.', 'red');
 legend('boundary','al', 'bl', 'cl')
 title('Non-parametric Estimation')
-xlabel('x1')
-ylabel('x2')
+xlabel('x')
+ylabel('y')
 hold off
 %% SEQUENTIAL DISCRIMINANTS
 load('lab2_3.mat');
