@@ -190,6 +190,8 @@ scatter(bl(:,1), bl(:,2), '.', 'blue');
 scatter(cl(:,1), cl(:,2), '.', 'red');
 title('Parametric Estimation')
 legend('boundary','al', 'bl', 'cl')
+xlabel('x1')
+ylabel('x2')
 hold off
 
 figure
@@ -201,6 +203,8 @@ scatter(bl(:,1), bl(:,2), '.', 'blue');
 scatter(cl(:,1), cl(:,2), '.', 'red');
 legend('boundary','al', 'bl', 'cl')
 title('Non-parametric Estimation')
+xlabel('x1')
+ylabel('x2')
 hold off
 %% SEQUENTIAL DISCRIMINANTS
 load('lab2_3.mat');
