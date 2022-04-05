@@ -1,13 +1,5 @@
 function class = ml(mu1, mu2, mu3, sigma1, sigma2, sigma3, points)
     class = zeros(size(points,1),1);
-    n1 = 100;
-    n2 = 100; 
-    n3 = 100;
-    pA = n1 / (n1 + n2 + n3);
-    pB = n2 / (n1 + n2 + n3);
-    pC = n3 / (n1 + n2 + n3);
-
-
     for i = 1:length(points)
         x = [points(i,1), points(i,2)];
 
@@ -16,13 +8,13 @@ function class = ml(mu1, mu2, mu3, sigma1, sigma2, sigma3, points)
         pxC =  1/(sqrt(2*pi)*det(sigma3))*exp(-0.5*(x-mu3)*inv(sigma3)*(x-mu3)');
 
         logLike1 = log(pxA/pxB);
-        logTheta1 = log(pB/pA);
+        logTheta1 = 0;
 
         logLike2 = log(pxB/pxC);
-        logTheta2 = log(pC/pB);
+        logTheta2 = 0;
 
         logLike3 = log(pxC/pxA);
-        logTheta3 = log(pA/pC);
+        logTheta3 = 0;
 
 
         if (logLike1 > logTheta1 && logLike3 < logTheta3)
