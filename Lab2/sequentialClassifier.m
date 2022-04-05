@@ -69,7 +69,7 @@ function [discriminants, true_n_ab, true_n_ba] = sequentialClassifier(A,B,J)
         if (J ~= 0)
             % do nothing 
         end
-        if (J ~= 0 && j > J)
+        if (J ~= 0 && j >= J)
             break;
         end
 
