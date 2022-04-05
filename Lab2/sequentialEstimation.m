@@ -9,7 +9,7 @@ function sequentialEstimation(x1,y1,A,B,J,num)
         estimates = zeros(lenX,lenY);
         for i = 1:lenX
            for j = 1:lenY
-                estimates(i,j) = classifyClasses(J, X(i,j),Y(i,j), discriminants, true_n_ab, true_n_ba);
+                estimates(i,j) = classifyClasses(X(i,j), Y(i,j), discriminants, true_n_ab, true_n_ba);
            end
         end
 
