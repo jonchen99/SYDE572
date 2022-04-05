@@ -204,14 +204,21 @@ title('Non-parametric Estimation')
 hold off
 %% SEQUENTIAL DISCRIMINANTS
 load('lab2_3.mat');
+
 % MED classification meshgrid
 x1 = linspace(min([a(:,1);b(:,1)]), max([a(:,1);b(:,1)]), 100);
 y1 = linspace(min([a(:,2);b(:,2)]), max([a(:,2);b(:,2)]), 100);
 
 % 3 sequential classifiers for Q1
-sequentialEstimation(x1,y1,a,b,1,1);
-sequentialEstimation(x1,y1,a,b,1,2);
-sequentialEstimation(x1,y1,a,b,1,3);
+for i = 1:3
+    [G, n_ab, n_ba] = sequentialClassifier(a,b,0);
+    plotSequentialClassifier(a,b,x1,y1,G,n_ab,n_ba,i)
+end
 
 % Learning a sequential classifier 20 times for Q3 for J = 5
-sequentialEstimation(x1,y1,a,b,5,0);
+[avgError,minError,maxError,sdError] = sequentialError(a,b,5,20);
+
+plotError(maxError,'Maximum Error Rate');
+plotError(sdError,'Standard Deviation of Error Rate');
+plotError(avgError,'Average Error Rate');
+plotError(minError,'Minimum Error Rate');
