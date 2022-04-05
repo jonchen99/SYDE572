@@ -11,7 +11,7 @@ function [avgError,minError,maxError,sdError] = sequentialError(A,B,J,K)
             errorRate = 0;
 
             % Get classifiers
-            [G,n_ab,n_ba] = sequentialClassifier(dataA,dataB,J);
+            [G,n_ab,n_ba] = sequentialClassifier(dataA,dataB,j);
 
             % Check each point in dataset A
             for i=1:lenA
