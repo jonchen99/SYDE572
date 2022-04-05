@@ -16,7 +16,7 @@ function sequentialEstimation(x1,y1,A,B,J,num)
         plotSequentialClassifier(A,B,x1,y1,estimates,num);
     end
     if (J > 1)
-        [avgError,minError,maxError,sdError] = calculateError(A,B,J,20,discriminants,true_n_ab,true_n_ba);
+        [avgError,minError,maxError,sdError] = calculateError(A,B,J,20);
         plotError(maxError,'Maximum Error Rate');
         plotError(sdError,'Standard Deviation of Error Rate');
         plotError(avgError,'Average Error Rate');

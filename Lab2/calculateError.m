@@ -1,4 +1,4 @@
-function [avgError,minError,maxError,sdError] = calculateError(A,B,J,K,discriminants,true_n_ab,true_n_ba)
+function [avgError,minError,maxError,sdError] = calculateError(A,B,J,K)
     for j=1:J
         totalError = [];
         for k=1:K
