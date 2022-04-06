@@ -3,6 +3,6 @@ function plotError(error,graph_title)
     title(graph_title);
     hold on;
     plot(error)
-    xlabel('Iteration');
+    xlabel('J');
     ylabel('Error');
 end
